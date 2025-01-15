@@ -4,8 +4,7 @@ import blueprints from '../../../assets/blueprints.json';
 import blueprintsImages from '../../../assets/blueprints_images.json';
 import Layout from '../../../layouts/Layout.astro';
 import { getObjectInfo } from '../../../assets/PsHomeDatabase';
-import path from 'node:path';
-import { single } from 'itertools-ts';
+import pathwin32 from 'node:path/win32';
 
 export async function getStaticPaths() {
     return blueprints.map(blueprint => ({
@@ -22,8 +21,8 @@ const localBlueprintImages = Object.entries(blueprintsImages)
     .map(([k, v]) => ({
         filePath: k,
         url: v,
-        itemType: path.basename(path.dirname(path.dirname(k))),
-        itemName: path.basename(k, '.png'),
+        itemType: pathwin32.basename(pathwin32.dirname(pathwin32.dirname(k))),
+        itemName: pathwin32.basename(k, '.png'),
     }));
 
 const groupedBlueprintImages = Object.groupBy(localBlueprintImages, e => e.itemType);
