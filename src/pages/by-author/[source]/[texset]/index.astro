@@ -1,0 +1,55 @@
+---
+
+import { readdir } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+import { assert } from 'node:console';
+import { Image } from 'astro:assets';
+import Layout from '@/layouts/Layout.astro';
+import { getTexset, texsets } from '@/lib/texture-sets';
+
+const texsetsDir = './public/by-author';
+
+export function getStaticPaths() {
+    const arr = [];
+
+    for (const texset of texsets) {
+        arr.push({
+            params: { source: texset.source, texset: texset.name },
+        });
+    }
+
+    return arr;
+}
+
+const texset = getTexset(Astro.params.source, Astro.params.texset)!;
+
+const texturesByCategoryArr = texset.categories.toSorted((a, b) => a.name.localeCompare(b.name));
+---
+
+<Layout>
+    <h1>{Astro.params.texset}</h1>
+    <p>by {Astro.params.source}</p>
+
+    {texturesByCategoryArr
+        .map((category) => <div>
+            <h2><a href={`#${category.name}`}>{category.name}</a></h2>
+        </div>)
+    }
+
+    {texturesByCategoryArr.map((category) => <div>
+        <h2 id={category.name}>{category.name}</h2>
+        
+        {category.textures.map(texture => <div>
+            <p>
+                <h3>{category.name}: {path.basename(texture, '.png')}</h3>
+                <img
+                    src={'/' + texture.slice('public\\'.length).replace(/\\/g, '/')}
+                    alt={texture.slice('public\\'.length)}
+                    loading="lazy"
+                    decoding="async"
+                    />
+            </p>
+        </div>)}
+    </div>)}
+</Layout>

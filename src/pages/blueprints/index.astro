@@ -1,0 +1,23 @@
+---
+import blueprints from '../../assets/blueprints.json';
+import { getObjectInfo } from '../../assets/PsHomeDatabase';
+import Layout from '../../layouts/Layout.astro';
+
+const blueprintsWithinfo = blueprints
+    .map(blueprint => ({
+        blueprint,
+        info: getObjectInfo(blueprint)!,
+    }))
+    .sort((a, b) => a.info.niceName.localeCompare(b.info.niceName));
+---
+
+<Layout>
+    <ul>
+        {blueprintsWithinfo.map(({ blueprint, info }) => <li>
+            <a href={`/blueprints/${blueprint}`}>
+                {info?.niceName}
+                <p>by {info?.maker}</p>
+            </a>
+        </li>)}
+    </ul>
+</Layout>
