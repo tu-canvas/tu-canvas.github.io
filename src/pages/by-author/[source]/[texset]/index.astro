@@ -44,7 +44,11 @@ const texturesByCategoryArr = texset.categories.toSorted((a, b) => a.name.locale
             <p>
                 <h3>{category.name}: {path.basename(texture, '.png')}</h3>
                 <img
-                    src={'/' + texture.slice('public\\'.length).replace(/\\/g, '/')}
+                    src={
+                        import.meta.env.PROD
+                            ? '//wsrv.nl/?url=tu-canvas.github.io/' + encodeURIComponent(texture.slice('public'.length).replace(/\\/g, '/'))
+                            : texture.slice('public'.length).replace(/\\/g, '/')
+                    }
                     alt={texture.slice('public\\'.length)}
                     loading="lazy"
                     decoding="async"
