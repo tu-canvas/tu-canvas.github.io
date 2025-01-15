@@ -1,5 +1,3 @@
-import { fileURLToPath } from 'node:url';
-import path from 'node:path';
 import { readFile } from 'node:fs/promises';
 
 export const objectDatabase = (await readFile('./src/assets/PsHomeDatabase.psv', 'utf8'))
