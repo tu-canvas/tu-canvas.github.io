@@ -1,18 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-import blueprints from '../assets/blueprints.json';
-import { getObjectInfo } from '../assets/PsHomeDatabase';
-
-const blueprintsWithinfo = blueprints
-    .map(blueprint => ({
-        blueprint,
-        info: getObjectInfo(blueprint)!,
-    }))
-    .sort((a, b) => a.info.niceName.localeCompare(b.info.niceName));
-
-import { readdir } from "node:fs/promises";
-import path from "node:path";
 import { texsets } from '@/lib/texture-sets';
 
 ---
@@ -25,13 +13,6 @@ import { texsets } from '@/lib/texture-sets';
             <a href={`/by-author/${source}/${texset}`}>
                 {texset}
                 <p>by {source}</p>
-            </a>
-        </li>)}
-
-        {blueprintsWithinfo.map(({ blueprint, info }) => <li>
-            <a href={`/blueprints/${blueprint}`}>
-                {info?.niceName}
-                <p>by {info?.maker}</p>
             </a>
         </li>)}
     </ul>
