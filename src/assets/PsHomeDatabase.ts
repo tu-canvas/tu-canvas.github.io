@@ -1,10 +1,8 @@
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { readFile } from 'node:fs/promises';
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-export const objectDatabase = (await readFile(path.join(__dirname, 'PsHomeDatabase.psv'), 'utf8'))
+export const objectDatabase = (await readFile('./src/assets/PsHomeDatabase.psv', 'utf8'))
     .split('\n')
     .map(e => e.trim())
     .filter(e => e)
