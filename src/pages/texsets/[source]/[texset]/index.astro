@@ -56,9 +56,10 @@ function sections<T>(arr: T[], sections: number): T[][] {
                 <div class="column">
                     {chunk.map(textureUrl => (
                         <div class="cell">
-                            <img
+                            <Image
                                 src={`//wsrv.nl/?url=${encodeURIComponent(textureUrl)}`}
                                 alt={textureUrl.slice('public\\'.length)}
+                                inferSize
                                 />
                         </div>
                     ))}
