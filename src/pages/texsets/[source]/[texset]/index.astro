@@ -8,8 +8,6 @@ import { Image } from 'astro:assets';
 import Layout from '@/layouts/Layout.astro';
 import { getTexset, texsets } from '@/lib/texture-sets';
 
-const texsetsDir = './public/by-author';
-
 export function getStaticPaths() {
     const arr = [];
 
@@ -42,16 +40,11 @@ const texturesByCategoryArr = texset.categories.toSorted((a, b) => a.name.locale
         
         {category.textures.map(texture => <div>
             <p>
-                <h3>{category.name}: {path.basename(texture, '.png')}</h3>
-                <img
-                    src={
-                        import.meta.env.PROD
-                            ? '//wsrv.nl/?url=tu-canvas.github.io/' + encodeURIComponent(texture.slice('public'.length).replace(/\\/g, '/'))
-                            : texture.slice('public'.length).replace(/\\/g, '/')
-                    }
+                <h3>{category.name}: {path.basename(texture, '.jpg')}</h3>
+                <Image
+                    src={texture}
                     alt={texture.slice('public\\'.length)}
-                    loading="lazy"
-                    decoding="async"
+                    inferSize
                     />
             </p>
         </div>)}

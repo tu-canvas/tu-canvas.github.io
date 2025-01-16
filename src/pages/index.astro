@@ -10,7 +10,7 @@ import { texsets } from '@/lib/texture-sets';
 
     <ul>
         {texsets.map(({ source, name: texset }) => <li>
-            <a href={`/by-author/${source}/${texset}`}>
+            <a href={`/texsets/${source}/${texset}`}>
                 {texset}
                 <p>by {source}</p>
             </a>
