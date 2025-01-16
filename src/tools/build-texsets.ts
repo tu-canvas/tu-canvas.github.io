@@ -6,6 +6,7 @@ const builtTexsets: Texset[] = [];
 const repos = await readdir('./texsets');
 for (const repo of repos) {
     const galleries = await readdir(`./texsets/${repo}`);
+
     for (const gallery of galleries) {
         if (gallery === '.git') continue;
 
@@ -33,10 +34,38 @@ for (const repo of repos) {
                 const relativePath = path.relative(
                     `./texsets/${repo}/${gallery}/${category}`,
                     path.join(file.parentPath, file.name)
-                );
+                ).replace(/\\/g, '/');
 
                 builtCategory.textures.push(`https://tu-canvas.github.io/${repo}/${gallery}/${category}/${relativePath}`);
             }
+        }
+    }
+}
+
+
+const flatRepos = await readdir('./texsets-flat');
+for (const repo of flatRepos) {
+    const texset: Texset = {
+        source: repo,
+        name: repo,
+        categories: [],
+    };
+    builtTexsets.push(texset);
+
+    const images = await readdir(`./texsets-flat/${repo}`);
+    const categories = Object.groupBy(
+        images.filter(e => e !== '.git'),
+        image => image.match(/^([A-Za-z]+)/)?.[1] ?? 'Other'
+    );
+    for (const category of Object.keys(categories)) {
+        const builtCategory: Category = {
+            name: category,
+            textures: [],
+        };
+        texset.categories.push(builtCategory);
+
+        for (const image of categories[category]!) {
+            builtCategory.textures.push(`https://tu-canvas.github.io/${repo}/${image}`);
         }
     }
 }
