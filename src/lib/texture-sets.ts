@@ -1,5 +1,4 @@
-import { readdir, readFile } from "node:fs/promises";
-import path from "node:path";
+import { readFile } from "node:fs/promises";
 
 export interface Texset {
     source: string;
