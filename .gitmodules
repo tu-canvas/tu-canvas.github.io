@@ -1,0 +1,9 @@
+[submodule "texsets/hl2-beta.ru"]
+	path = texsets/hl2-beta.ru
+	url = https://github.com/tu-canvas/hl2-beta.ru.git
+[submodule "texsets/TopHATTwaffle"]
+	path = texsets/TopHATTwaffle
+	url = https://github.com/tu-canvas/TopHATTwaffle.git
+[submodule "texsets/NDreams-Ltd"]
+	path = texsets/NDreams-Ltd
+	url = https://github.com/tu-canvas/NDreams-Ltd
