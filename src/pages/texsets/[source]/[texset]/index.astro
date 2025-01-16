@@ -23,6 +23,19 @@ export function getStaticPaths() {
 const texset = getTexset(Astro.params.source, Astro.params.texset)!;
 
 const texturesByCategoryArr = texset.categories.toSorted((a, b) => a.name.localeCompare(b.name));
+
+function chunks<T>(arr: T[], size: number): T[][] {
+    const res = [];
+    for (let i = 0; i < arr.length; i += size) {
+        res.push(arr.slice(i, i + size));
+    }
+    return res;
+}
+
+function sections<T>(arr: T[], sections: number): T[][] {
+    const lengthPerSection = Math.ceil(arr.length / sections);
+    return chunks(arr, lengthPerSection);
+}
 ---
 
 <Layout>
@@ -38,15 +51,41 @@ const texturesByCategoryArr = texset.categories.toSorted((a, b) => a.name.locale
     {texturesByCategoryArr.map((category) => <div>
         <h2 id={category.name}>{category.name}</h2>
         
-        {category.textures.map(texture => <div>
-            <p>
-                <h3>{category.name}: {path.basename(texture, '.jpg')}</h3>
-                <Image
-                    src={texture}
-                    alt={texture.slice('public\\'.length)}
-                    inferSize
-                    />
-            </p>
-        </div>)}
+        <div class="row">
+            {sections(category.textures, 4).map(chunk => (
+                <div class="column">
+                    {chunk.map(textureUrl => (
+                        <div class="cell">
+                            <img
+                                src={`//wsrv.nl/?url=${encodeURIComponent(textureUrl)}`}
+                                alt={textureUrl.slice('public\\'.length)}
+                                />
+                        </div>
+                    ))}
+                </div>
+            ))}
+        </div>
     </div>)}
 </Layout>
+
+<style>
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 4px;
+}
+
+.column {
+    flex: 25%;
+    padding: 0 4px;
+}
+
+.column img {
+    margin-top: 8px;
+    vertical-align: middle;
+}
+
+.cell {
+    text-align: center;
+}
+</style>
